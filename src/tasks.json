@@ -1,0 +1,41 @@
+[
+  {
+    "a": "21528,9826",
+    "b": "21462,9900",
+    "zoom": 15,
+    "map_type": "satellite",
+    "title": "perm_v3",
+    "status": "DONE",
+    "session": "AJVsH2xDdbJ_451-hxmV8TPq9J3LnEMFu7EiLmJFWBE95ZnoENq6JVPZAcacIRiEuXEOAeIH-OhsTnJv-DgHJZ_kuQ",
+    "expiry": 1700001231,
+    "tile_width": 256,
+    "tile_height": 256,
+    "image_format": "jpeg"
+  },
+  {
+    "a": "43057,19652",
+    "b": "42925,19800",
+    "zoom": 16,
+    "map_type": "satellite",
+    "title": "perm_v3",
+    "status": "DONE",
+    "session": "AJVsH2y-34vBVyWAnCGgl_QKcABLX0YKoK-WR8nysfij7D00ZQJb4wmeIZwFU0QGInaipbnACmw2u2xosZvSvZ-pqw",
+    "expiry": 1700001232,
+    "tile_width": 256,
+    "tile_height": 256,
+    "image_format": "jpeg"
+  },
+  {
+    "a": "86114,39304",
+    "b": "85851,39601",
+    "zoom": 17,
+    "map_type": "satellite",
+    "title": "perm_v3",
+    "status": "NEW",
+    "session": "AJVsH2zIevbRuG12ZqyjowE-yb599WcjM_zBnyEKOSCdhyfC9dKilrpj8X8ahonPh89V3tsil6vYNhDZHkZNwtOKdQ",
+    "expiry": 1700001232,
+    "tile_width": 256,
+    "tile_height": 256,
+    "image_format": "jpeg"
+  }
+]

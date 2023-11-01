@@ -5,70 +5,67 @@ import io
 import json
 import shutil
 
+
 class FileWriter:
+    slicer = None
 
-	slicer = None
-	
-	def ensureDirectory(lock, directory):
+    def ensureDirectory(lock, directory):
+        lock.acquire()
+        try:
+            if not os.path.exists("temp"):
+                os.makedirs("temp")
 
-		lock.acquire()
-		try:
+            if not os.path.exists("output"):
+                os.makedirs("output")
 
-			if not os.path.exists('temp'):
-				os.makedirs('temp')
+            os.makedirs(directory, exist_ok=True)
 
-			if not os.path.exists('output'):
-				os.makedirs('output')
+        finally:
+            lock.release()
 
-			os.makedirs(directory, exist_ok=True)
+        return directory
 
-		finally:
-			lock.release()
+    @staticmethod
+    def addMetadata(
+        lock, path, file, name, description, format, bounds, center, minZoom, maxZoom, profile="mercator", tileSize=256
+    ):
+        FileWriter.ensureDirectory(lock, path)
 
-		return directory
+        data = [
+            ("name", name),
+            ("description", description),
+            ("format", format),
+            ("bounds", ",".join(map(str, bounds))),
+            ("center", ",".join(map(str, center))),
+            ("minzoom", minZoom),
+            ("maxzoom", maxZoom),
+            ("profile", profile),
+            ("tilesize", str(tileSize)),
+            ("scheme", "xyz"),
+            ("generator", "EliteMapper by Visor Dynamics"),
+            ("type", "overlay"),
+            ("attribution", "EliteMapper by Visor Dynamics"),
+        ]
 
-	@staticmethod
-	def addMetadata(lock, path, file, name, description, format, bounds, center, minZoom, maxZoom, profile="mercator", tileSize=256):
+        with open(path + "/metadata.json", "w+") as jsonFile:
+            json.dump(dict(data), jsonFile)
 
-		FileWriter.ensureDirectory(lock, path)
+        return
 
-		data = [
-			("name", name),
-			("description", description),
-			("format", format), 
-			("bounds", ','.join(map(str, bounds))), 
-			("center", ','.join(map(str, center))), 
-			("minzoom", minZoom), 
-			("maxzoom", maxZoom), 
-			("profile", profile), 
-			("tilesize", str(tileSize)), 
-			("scheme", "xyz"), 
-			("generator", "EliteMapper by Visor Dynamics"),
-			("type", "overlay"),
-			("attribution", "EliteMapper by Visor Dynamics"),
-		]
-		
-		with open(path + "/metadata.json", 'w+') as jsonFile:
-			json.dump(dict(data), jsonFile)
+    @staticmethod
+    def addTile(lock, filePath, sourcePath, x, y, z, outputScale):
+        fileDirectory = os.path.dirname(filePath)
+        FileWriter.ensureDirectory(lock, fileDirectory)
 
-		return
+        shutil.copyfile(sourcePath, filePath)
 
-	@staticmethod
-	def addTile(lock, filePath, sourcePath, x, y, z, outputScale):
+        return
 
-		fileDirectory = os.path.dirname(filePath)
-		FileWriter.ensureDirectory(lock, fileDirectory)
-		
-		shutil.copyfile(sourcePath, filePath)
+    @staticmethod
+    def exists(filePath, x, y, z):
+        return os.path.isfile(filePath)
 
-		return
-
-	@staticmethod
-	def exists(filePath, x, y, z):
-		return os.path.isfile(filePath)
-
-
-	@staticmethod
-	def close(lock, path, file, minZoom, maxZoom):
-		#TODO recalculate bounds and center
-		return
+    @staticmethod
+    def close(lock, path, file, minZoom, maxZoom):
+        # TODO recalculate bounds and center
+        return
