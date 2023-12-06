@@ -11,12 +11,17 @@ import numpy as np
 from decimal import Decimal
 
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIza******")
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyDHvz649_59XcMsXZHw6NZt2Xn1sJu_Yu4")
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyBdmXm4YBC3y35hWRBeyv9LSEYT7I2PNd0")
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyAzBr9s-oWcdU7QQBkhrGcXu8K292Ov4Yg")
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyA_PCPIvaVxSLSpgmXZ04DsNBH_pDOOgMw")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyCyrfHII-y_CgfKsa93xduovelKpLIBVgY")
+with open("google_api_keys.txt") as file:
+    GOOGLE_API_KEYS = set([line.strip() for line in file.read().split("\n") if line.strip().startswith("AIza")])
+
+
+def google_api_key_feeder():
+    for api_key in GOOGLE_API_KEYS:
+        yield api_key
+    yield
+
+new_api_key = google_api_key_feeder()
+
 
 # TILES_PATH = Path(os.getenv("TILES_PATH", "tiles"))
 TILES_PATH = Path(os.getenv("TILES_PATH", "/mnt/e/tiles"))
